@@ -55,10 +55,8 @@ class Pipeline:
                     process.close()
                     print(f"{process.node.name.value}> {process.status}")
                     
-                    # Iterate over each next node
                     for next_node in process.node.sucessors:
-                        # Check if all the previous tasks was executed with success
-                        if not any(not n.succeded for n in next_node.predecessors):
+                        if next_node.is_available:
                             self.add_in_queue(next_node)
 
     def __enter__(self):

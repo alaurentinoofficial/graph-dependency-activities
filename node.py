@@ -23,7 +23,7 @@ class Node:
         PipelineContext.register(self)
     
     def run(self):
-        raise ValueError("Node can't be intantiated, please use a exetend class")
+        ...
     
     @staticmethod
     def forward(previous: Node, posterior: Node):
@@ -53,6 +53,10 @@ class Node:
                     for node_predecessor in posterior:
                         node_posterior.predecessors.add(node_predecessor)
                         node_predecessor.sucessors.add(node_posterior)
+
+    @property
+    def is_available(self) -> bool:
+        return not any(not n.succeded for n in self.predecessors)
 
     def __rshift__(self, node):
         Node.forward(self, node)
